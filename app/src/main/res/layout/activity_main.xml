@@ -6,35 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:background="#6441a5"
+        android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:id="@+id/searchBar">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src ="@drawable/gear"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:layout_alignParentLeft="true"/>
         <EditText
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:id="@+id/searchText"/>
+            android:id="@+id/searchText"
+            android:layout_toLeftOf="@+id/searchIcon"/>
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src ="@drawable/search"
+            android:id="@+id/searchIcon"
             android:layout_margin="10dp"
-            android:layout_gravity="center_vertical|end"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="텍스트"
-        android:layout_below="@+id/searchBar"
-        android:id="@+id/textView"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/onlineRecyclerView"
+        android:layout_below="@+id/searchBar"></android.support.v7.widget.RecyclerView>
+\
 
 </RelativeLayout>
