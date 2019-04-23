@@ -14,14 +14,15 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import mentee.gwi02.twitchapp2.Model.Example;
+
+import mentee.gwi02.twitchapp2.Model.ChannelData;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import mentee.gwi02.twitchapp2.R;
 import mentee.gwi02.twitchapp2.WebviewActivity;
 
 public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private ArrayList<Example.Stream> sList;
+    private ArrayList<ChannelData.Stream> sList;
     private ArrayList<Recommend.Featured> fList;
     private boolean isFeatured = false;
 
@@ -51,7 +52,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public FollowOnlineAdapter(ArrayList<Example.Stream> list, Context context){
+    public FollowOnlineAdapter(ArrayList<ChannelData.Stream> list, Context context){
         this.sList = list;
         this.context = context;
     }
@@ -63,7 +64,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.isFeatured = isFeatured;
         }
     }
-    public FollowOnlineAdapter(ArrayList<Example.Stream> sList, ArrayList<Recommend.Featured> fList, Context context){
+    public FollowOnlineAdapter(ArrayList<ChannelData.Stream> sList, ArrayList<Recommend.Featured> fList, Context context){
         this.fList = fList;
         this.sList = sList;
         this.context = context;
@@ -115,7 +116,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 headerViewHolder.header_text.setText("생방송 채널");
             }
         }else{
-            Example.Stream item = null;
+            ChannelData.Stream item = null;
 
             if(isFeatured){
                 item = fList.get(i-1).getStream();
@@ -145,7 +146,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
 
-                    Example.Stream stream = null;
+                    ChannelData.Stream stream = null;
 
                     if(isFeatured){
                         stream = fList.get(i-1).getStream();

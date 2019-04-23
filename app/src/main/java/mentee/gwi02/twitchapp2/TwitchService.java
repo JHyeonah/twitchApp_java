@@ -2,7 +2,7 @@ package mentee.gwi02.twitchapp2;
 
 import java.util.List;
 
-import mentee.gwi02.twitchapp2.Model.Example;
+import mentee.gwi02.twitchapp2.Model.ChannelData;
 import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import retrofit2.Call;
@@ -20,7 +20,7 @@ public interface TwitchService {
             "Authorization: OAuth fw5kins9bby5tpp88kdz5dpa395npf"
     })
     @GET("kraken/streams/followed")
-    Call<Example> getOnlineChannel();
+    Call<ChannelData> getOnlineChannel();
 
     @Headers({
             "Accept: application/vnd.twitchtv.v5+json",
@@ -35,6 +35,13 @@ public interface TwitchService {
     })
     @GET("kraken/users/188618213/follows/channels")
     Call<Follows> getFollows();
+
+    @Headers({
+            "Accept: application/vnd.twitchtv.v5+json",
+            "Client-ID: emxt0p6s6th2tetp5swle01t5ptmiq"
+    })
+    @GET("kraken/search/channels?")
+    Call<ChannelData.Stream.Channel> searchChannels();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.twitch.tv/")

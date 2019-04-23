@@ -36,7 +36,7 @@ public class Follows {
         private String createdAt;
         @SerializedName("channel")
         @Expose
-        private Example.Stream.Channel channel;
+        private ChannelData.Stream.Channel channel;
         @SerializedName("notifications")
         @Expose
         private Boolean notifications;
@@ -49,11 +49,11 @@ public class Follows {
             this.createdAt = createdAt;
         }
 
-        public Example.Stream.Channel getChannel() {
+        public ChannelData.Stream.Channel getChannel() {
             return channel;
         }
 
-        public void setChannel(Example.Stream.Channel channel) {
+        public void setChannel(ChannelData.Stream.Channel channel) {
             this.channel = channel;
         }
 

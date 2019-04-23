@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import mentee.gwi02.twitchapp2.Adapter.FollowOnlineAdapter;
 import mentee.gwi02.twitchapp2.Adapter.OfflineAdapter;
-import mentee.gwi02.twitchapp2.Model.Example;
+import mentee.gwi02.twitchapp2.Model.ChannelData;
 import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import retrofit2.Call;
@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView onlineRecyclerView, recommendRecyclerView, offlineRecyclerView;
     FollowOnlineAdapter followOnlineAdapter;
     OfflineAdapter offlineAdapter;
-    Call<Example> callEx;
+    Call<ChannelData> callEx;
     Call<Recommend> callRe;
     Call<Follows> callFo;
-    ArrayList<Example.Stream> exData;
+    ArrayList<ChannelData.Stream> exData;
     ArrayList<Recommend.Featured> reData;
     ArrayList<Follows.Follow> foData;
 
@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getResult(){
-        callEx.enqueue(new Callback<Example>() {
+        callEx.enqueue(new Callback<ChannelData>() {
             @Override
-            public void onResponse(Call<Example> call, Response<Example> response) {
+            public void onResponse(Call<ChannelData> call, Response<ChannelData> response) {
                 if(response.body() != null){
 
-                    Example example = response.body();
+                    ChannelData example = response.body();
                     exData = new ArrayList<>(example.getStreams());
                     followOnlineAdapter = new FollowOnlineAdapter(exData, getApplicationContext());
                     onlineRecyclerView.setAdapter(followOnlineAdapter);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Example> call, Throwable t) {
+            public void onFailure(Call<ChannelData> call, Throwable t) {
                 t.printStackTrace();
                 Log.d("Ex콜 실행", "onFailure 실행" + t.toString());
             }

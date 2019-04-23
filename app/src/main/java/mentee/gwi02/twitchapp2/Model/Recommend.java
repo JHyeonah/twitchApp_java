@@ -40,7 +40,7 @@ public class Recommend {
         private String title;
         @SerializedName("stream")
         @Expose
-        private Example.Stream stream;
+        private ChannelData.Stream stream;
 
         public String getImage() {
             return image;
@@ -90,11 +90,11 @@ public class Recommend {
             this.title = title;
         }
 
-        public Example.Stream getStream() {
+        public ChannelData.Stream getStream() {
             return stream;
         }
 
-        public void setStream(Example.Stream stream) {
+        public void setStream(ChannelData.Stream stream) {
             this.stream = stream;
         }
     }
