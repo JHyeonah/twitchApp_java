@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">twitchApp2</string>
+    <string name="online_channel">생방송 채널</string>
+    <string name="recommend_channel">추천 채널</string>
 </resources>

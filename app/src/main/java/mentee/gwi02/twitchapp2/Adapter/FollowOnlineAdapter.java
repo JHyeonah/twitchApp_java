@@ -64,11 +64,6 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.isFeatured = isFeatured;
         }
     }
-    public FollowOnlineAdapter(ArrayList<ChannelData.Stream> sList, ArrayList<Recommend.Featured> fList, Context context){
-        this.fList = fList;
-        this.sList = sList;
-        this.context = context;
-    }
 
     @NonNull
     @Override
@@ -111,10 +106,11 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             HeaderViewHolder headerViewHolder = (HeaderViewHolder)holder;
 
             if(isFeatured){
-                headerViewHolder.header_text.setText("추천 채널");
+                headerViewHolder.header_text.setText(R.string.recommend_channel);
             }else{
-                headerViewHolder.header_text.setText("생방송 채널");
+                headerViewHolder.header_text.setText(R.string.online_channel);
             }
+
         }else{
             ChannelData.Stream item = null;
 

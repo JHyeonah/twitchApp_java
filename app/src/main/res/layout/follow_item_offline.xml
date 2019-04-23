@@ -17,18 +17,13 @@
         android:text="스트리머 이름 (아이디)"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        android:layout_alignTop="@id/offline_icon"
+        android:layout_alignTop="@+id/offline_icon"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/offline_icon"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         android:textSize="13dp"
-        android:id="@+id/streamer_name"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="새 동영상 n개"
-        android:layout_below="@id/streamer_name"
-        android:textColor="@color/colorText"
-        android:layout_alignStart="@+id/streamer_name"
-        android:id="@+id/new_video"/>
+        android:id="@+id/streamer_name"
+        />
+
 </RelativeLayout>

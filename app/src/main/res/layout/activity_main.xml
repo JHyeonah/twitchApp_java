@@ -21,13 +21,13 @@
         <EditText
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:id="@+id/searchText"
-            android:layout_toLeftOf="@+id/searchIcon"/>
+            android:id="@+id/search_edittext"
+            android:layout_toLeftOf="@+id/search_icon"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src ="@drawable/search"
-            android:id="@+id/searchIcon"
+            android:id="@+id/search_icon"
             android:layout_margin="10dp"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>

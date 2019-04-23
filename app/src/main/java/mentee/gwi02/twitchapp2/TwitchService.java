@@ -5,6 +5,7 @@ import java.util.List;
 import mentee.gwi02.twitchapp2.Model.ChannelData;
 import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.Model.Recommend;
+import mentee.gwi02.twitchapp2.Model.Search;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,8 +41,8 @@ public interface TwitchService {
             "Accept: application/vnd.twitchtv.v5+json",
             "Client-ID: emxt0p6s6th2tetp5swle01t5ptmiq"
     })
-    @GET("kraken/search/channels?")
-    Call<ChannelData.Stream.Channel> searchChannels();
+    @GET("kraken/search/streams")
+    Call<ChannelData> searchChannels(@Query("query") String query);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.twitch.tv/")

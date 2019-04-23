@@ -1,13 +1,16 @@
 package mentee.gwi02.twitchapp2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -23,11 +26,13 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView onlineRecyclerView, recommendRecyclerView, offlineRecyclerView;
+    EditText search_edittext;
+    ImageView search_icon;
     FollowOnlineAdapter followOnlineAdapter;
     OfflineAdapter offlineAdapter;
-    Call<ChannelData> callEx;
+    Call<ChannelData> callData;
     Call<Recommend> callRe;
-    Call<Follows> callFo;
+    Call<Follows> callFollows;
     ArrayList<ChannelData.Stream> exData;
     ArrayList<Recommend.Featured> reData;
     ArrayList<Follows.Follow> foData;
@@ -40,21 +45,35 @@ public class MainActivity extends AppCompatActivity {
         onlineRecyclerView = findViewById(R.id.onlineRecyclerView);
         recommendRecyclerView = findViewById(R.id.recommendRecyclerView);
         offlineRecyclerView = findViewById(R.id.offlineRecyclerView);
+        search_edittext = findViewById(R.id.search_edittext);
+        search_icon = findViewById(R.id.search_icon);
 
         onlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recommendRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         offlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
-        TwitchService twitchService = TwitchService.retrofit.create(TwitchService.class);
-        callEx = twitchService.getOnlineChannel();
+        final TwitchService twitchService = TwitchService.retrofit.create(TwitchService.class);
+        callData = twitchService.getOnlineChannel();
         callRe = twitchService.getRecommend();
-        callFo = twitchService.getFollows();
+        callFollows = twitchService.getFollows();
+
+        search_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+
+                String search = search_edittext.getText().toString();
+                intent.putExtra("search", search);
+
+                startActivity(intent);
+            }
+        });
 
         getResult();
     }
 
     public void getResult(){
-        callEx.enqueue(new Callback<ChannelData>() {
+        callData.enqueue(new Callback<ChannelData>() {
             @Override
             public void onResponse(Call<ChannelData> call, Response<ChannelData> response) {
                 if(response.body() != null){
@@ -66,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }else{
                     Log.d("Ex콜 실행", "body 없음");
-                }
+            }
 
             }
 
@@ -98,14 +117,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        callFo.enqueue(new Callback<Follows>() {
+        callFollows.enqueue(new Callback<Follows>() {
             @Override
             public void onResponse(Call<Follows> call, Response<Follows> response) {
                 if(response.body() != null){
                     Follows follows = response.body();
                     foData = new ArrayList<>(follows.getFollows());
 
-                    Log.d("EXDATA", String.valueOf(exData.size()));
                     if(exData.size() != 0){
                         for(int i = 0; i<exData.size(); i++){
                             for(int j = 0; j<foData.size(); j++){
@@ -129,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+
+
     }
 
     private static final class CustomLinearLayoutManager extends LinearLayoutManager{
