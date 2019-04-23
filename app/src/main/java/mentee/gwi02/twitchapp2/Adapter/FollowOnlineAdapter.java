@@ -1,4 +1,4 @@
-package mentee.gwi02.twitchapp2;
+package mentee.gwi02.twitchapp2.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +13,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import mentee.gwi02.twitchapp2.Model.Example;
+import mentee.gwi02.twitchapp2.Model.Recommend;
+import mentee.gwi02.twitchapp2.R;
 
 public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private ArrayList<Example.Stream> sList;
+    private ArrayList<Recommend.Featured> fList;
+    private boolean isFeatured = false;
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_ITEM = 1;
@@ -40,14 +45,24 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
+        TextView header_text;
         HeaderViewHolder(View headerView){
             super(headerView);
+            this.header_text = headerView.findViewById(R.id.header_text);
         }
     }
 
     public FollowOnlineAdapter(ArrayList<Example.Stream> list, Context context){
         this.sList = list;
         this.context = context;
+    }
+
+    public FollowOnlineAdapter(ArrayList<Recommend.Featured> list, Context context, boolean isFeatured){
+        if(isFeatured){
+            this.fList = list;
+            this.context = context;
+            this.isFeatured = isFeatured;
+        }
     }
 
     @NonNull
@@ -71,7 +86,10 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return sList.size() + 1;
+        if(isFeatured)
+            return fList.size() + 1;
+        else
+            return sList.size() + 1;
     }
 
     @Override
@@ -86,8 +104,21 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder)holder;
+
+            if(isFeatured){
+                headerViewHolder.header_text.setText("추천 채널");
+            }else{
+                headerViewHolder.header_text.setText("생방송 채널");
+            }
         }else{
-            Example.Stream item = sList.get(i-1);
+            Example.Stream item = null;
+
+            if(isFeatured){
+                item = fList.get(i-1).getStream();
+            }else{
+                item = sList.get(i-1);
+            }
+
             RecyclerViewHolders holders = (RecyclerViewHolders)holder;
 
             String preview_url = item.getPreview().getSmall();

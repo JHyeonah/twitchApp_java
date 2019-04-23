@@ -64,9 +64,9 @@ public class Example {
         @SerializedName("is_playlist")
         @Expose
         private Boolean isPlaylist;
-        @SerializedName("stream_type")*/
+        @SerializedName("stream_type")
         @Expose
-        private String streamType;
+        private String streamType;*/
         @SerializedName("preview")
         @Expose
         private Preview preview;

@@ -1,20 +1,17 @@
 package mentee.gwi02.twitchapp2;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
+import mentee.gwi02.twitchapp2.Adapter.FollowOnlineAdapter;
 import mentee.gwi02.twitchapp2.Model.Example;
+import mentee.gwi02.twitchapp2.Model.Recommend;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,11 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
     final String USER_ID = "188618213";
     TextView textView;
-    RecyclerView onlineRecyclerView;
-    LinearLayoutManager mLayoutManager;
+    RecyclerView onlineRecyclerView, recommendRecyclerView;
+    LinearLayoutManager oLayoutManager, rLayoutManager;
     FollowOnlineAdapter followOnlineAdapter;
-    Call<Example> call;
+    Call<Example> callEx;
+    Call<Recommend> callRe;
     ArrayList<Example.Stream> exData;
+    ArrayList<Recommend.Featured> reData;
     // GET https://api.twitch.tv/kraken/user/?client_id=emxt0p6s6th2tetp5swle01t5ptmiq <-- 유저정보
     // GET https://api.twitch.tv/kraken/users/188618213/follows/channels <-- 팔로우 채널
     // GET https://api.twitch.tv/kraken/streams/followed <-- 팔로우채널_온라인
@@ -38,19 +37,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         onlineRecyclerView = findViewById(R.id.onlineRecyclerView);
-        mLayoutManager = new LinearLayoutManager(MainActivity.this);
-        onlineRecyclerView.setLayoutManager(mLayoutManager);
+        recommendRecyclerView = findViewById(R.id.recommendRecyclerView);
+
+        oLayoutManager = new LinearLayoutManager(MainActivity.this);
+        rLayoutManager = new LinearLayoutManager(MainActivity.this);
+        onlineRecyclerView.setLayoutManager(oLayoutManager);
+        recommendRecyclerView.setLayoutManager(rLayoutManager);
 
         TwitchService twitchService = TwitchService.retrofit.create(TwitchService.class);
-        call = twitchService.getOnlineChannel();
+        callEx = twitchService.getOnlineChannel();
+        callRe = twitchService.getRecommend();
         //new NetCall().execute(call);
-
 
         getResult();
     }
 
     public void getResult(){
-        call.enqueue(new Callback<Example>() {
+        callEx.enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
                 if(response.body() != null){
@@ -60,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
                     followOnlineAdapter = new FollowOnlineAdapter(exData, getApplicationContext());
                     onlineRecyclerView.setAdapter(followOnlineAdapter);
 
-                    String ex = response.body().getStreams().get(1).getChannel().getDisplayName();
-                    Log.d("콜 실행", ex);
                 }else{
-                    Log.d("콜 실행", "body 없음");
+                    Log.d("Ex콜 실행", "body 없음");
                 }
 
             }
@@ -71,7 +72,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
                 t.printStackTrace();
-                Log.d("콜 실행", "onFailure 실행" + t.toString());
+                Log.d("Ex콜 실행", "onFailure 실행" + t.toString());
+            }
+        });
+
+
+        callRe.enqueue(new Callback<Recommend>() {
+            @Override
+            public void onResponse(Call<Recommend> call, Response<Recommend> response) {
+                if(response.body() != null){
+                    Recommend recommend = response.body();
+                    reData = new ArrayList<>(recommend.getFeatured());
+                    Log.d("Re콜 실행", reData.toString());
+                    followOnlineAdapter = new FollowOnlineAdapter(reData, getApplicationContext(), true);
+                    recommendRecyclerView.setAdapter(followOnlineAdapter);
+                }else{
+                    Log.d("Re콜 실행", "body 없음");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Recommend> call, Throwable t) {
+                Log.d("Re콜 실행", t.toString());
             }
         });
     }
