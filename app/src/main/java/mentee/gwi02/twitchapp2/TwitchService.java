@@ -3,6 +3,7 @@ package mentee.gwi02.twitchapp2;
 import java.util.List;
 
 import mentee.gwi02.twitchapp2.Model.Example;
+import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -28,9 +29,15 @@ public interface TwitchService {
     @GET("kraken/streams/featured?limit=5")
     Call<Recommend> getRecommend();
 
+    @Headers({
+            "Accept: application/vnd.twitchtv.v5+json",
+            "Client-ID: emxt0p6s6th2tetp5swle01t5ptmiq"
+    })
+    @GET("kraken/users/188618213/follows/channels")
+    Call<Follows> getFollows();
+
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.twitch.tv/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-    //TwitchService service = retrofit.create(TwitchService.class);
 }

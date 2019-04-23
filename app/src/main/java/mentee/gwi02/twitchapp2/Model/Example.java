@@ -46,9 +46,11 @@ public class Example {
         @SerializedName("community_ids")
         @Expose
         private List<String> communityIds = null;
+        */
         @SerializedName("viewers")
         @Expose
-        private Integer viewers;
+        private String viewers;
+        /*
         @SerializedName("video_height")
         @Expose
         private Integer videoHeight;
@@ -114,15 +116,15 @@ public class Example {
         public void setCommunityIds(List<String> communityIds) {
             this.communityIds = communityIds;
         }
-
-        public Integer getViewers() {
+*/
+        public String getViewers() {
             return viewers;
         }
 
-        public void setViewers(Integer viewers) {
+        public void setViewers(String viewers) {
             this.viewers = viewers;
         }
-
+/*
         public Integer getVideoHeight() {
             return videoHeight;
         }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import mentee.gwi02.twitchapp2.Model.Example;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import mentee.gwi02.twitchapp2.R;
+import mentee.gwi02.twitchapp2.WebviewActivity;
 
 public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -31,12 +29,13 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_ITEM = 1;
 
     public class RecyclerViewHolders extends RecyclerView.ViewHolder{
-        TextView display_name_text, status_text, game_text;
+        TextView display_name_text, status_text, game_text, view_text;
         ImageView preview_small_img, logo_img;
 
         public RecyclerViewHolders(View view){
             super(view);
             this.display_name_text = view.findViewById(R.id.display_name_text);
+            this.view_text = view.findViewById(R.id.view_text);
             this.status_text = view.findViewById(R.id.status_text);
             this.game_text = view.findViewById(R.id.game_text);
             this.preview_small_img = view.findViewById(R.id.preview_small_img);
@@ -64,6 +63,11 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.isFeatured = isFeatured;
         }
     }
+    public FollowOnlineAdapter(ArrayList<Example.Stream> sList, ArrayList<Recommend.Featured> fList, Context context){
+        this.fList = fList;
+        this.sList = sList;
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -72,7 +76,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView.ViewHolder holder;
 
         if(i == TYPE_HEADER){
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.follow_item_online_header,viewGroup,false);
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.follow_item_header,viewGroup,false);
             holder = new HeaderViewHolder(view);
         }
         else{
@@ -101,7 +105,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int i) {
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder)holder;
 
@@ -125,6 +129,7 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String logo_url = item.getChannel().getLogo();
 
             holders.display_name_text.setText(item.getChannel().getDisplayName() + " (" + item.getChannel().getName() + ")");
+            holders.view_text.setText(item.getViewers());
             holders.status_text.setText(item.getChannel().getStatus());
             holders.game_text.setText(item.getChannel().getGame());
 
@@ -140,6 +145,16 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
 
+                    Example.Stream stream = null;
+
+                    if(isFeatured){
+                        stream = fList.get(i-1).getStream();
+                    }else{
+                        stream = sList.get(i-1);
+                    }
+                    Intent intent = new Intent(context, WebviewActivity.class);
+                    intent.putExtra("url", stream.getChannel().getUrl());
+                    context.startActivity(intent);
                 }
             });
 

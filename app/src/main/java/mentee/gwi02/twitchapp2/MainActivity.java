@@ -1,16 +1,20 @@
 package mentee.gwi02.twitchapp2;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import mentee.gwi02.twitchapp2.Adapter.FollowOnlineAdapter;
+import mentee.gwi02.twitchapp2.Adapter.OfflineAdapter;
 import mentee.gwi02.twitchapp2.Model.Example;
+import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,18 +22,15 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String USER_ID = "188618213";
-    TextView textView;
-    RecyclerView onlineRecyclerView, recommendRecyclerView;
-    LinearLayoutManager oLayoutManager, rLayoutManager;
+    RecyclerView onlineRecyclerView, recommendRecyclerView, offlineRecyclerView;
     FollowOnlineAdapter followOnlineAdapter;
+    OfflineAdapter offlineAdapter;
     Call<Example> callEx;
     Call<Recommend> callRe;
+    Call<Follows> callFo;
     ArrayList<Example.Stream> exData;
     ArrayList<Recommend.Featured> reData;
-    // GET https://api.twitch.tv/kraken/user/?client_id=emxt0p6s6th2tetp5swle01t5ptmiq <-- 유저정보
-    // GET https://api.twitch.tv/kraken/users/188618213/follows/channels <-- 팔로우 채널
-    // GET https://api.twitch.tv/kraken/streams/followed <-- 팔로우채널_온라인
+    ArrayList<Follows.Follow> foData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
         onlineRecyclerView = findViewById(R.id.onlineRecyclerView);
         recommendRecyclerView = findViewById(R.id.recommendRecyclerView);
+        offlineRecyclerView = findViewById(R.id.offlineRecyclerView);
 
-        oLayoutManager = new LinearLayoutManager(MainActivity.this);
-        rLayoutManager = new LinearLayoutManager(MainActivity.this);
-        onlineRecyclerView.setLayoutManager(oLayoutManager);
-        recommendRecyclerView.setLayoutManager(rLayoutManager);
+        onlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recommendRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        offlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         TwitchService twitchService = TwitchService.retrofit.create(TwitchService.class);
         callEx = twitchService.getOnlineChannel();
         callRe = twitchService.getRecommend();
-        //new NetCall().execute(call);
+        callFo = twitchService.getFollows();
 
         getResult();
     }
@@ -96,24 +97,63 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Re콜 실행", t.toString());
             }
         });
-    }
-/*
-    private class NetCall extends AsyncTask<Call, Void, List<Example.Stream>> {
-        @Override
-        protected List<Example.Stream> doInBackground(Call... calls) {
-            try{
-                Call<Example> call = calls[0];
-                Response<Example> response = call.execute();
-                return response.body().getStreams();
-            }catch (IOException e){
-                e.printStackTrace();
+
+        callFo.enqueue(new Callback<Follows>() {
+            @Override
+            public void onResponse(Call<Follows> call, Response<Follows> response) {
+                if(response.body() != null){
+                    Follows follows = response.body();
+                    foData = new ArrayList<>(follows.getFollows());
+
+                    Log.d("EXDATA", String.valueOf(exData.size()));
+                    if(exData.size() != 0){
+                        for(int i = 0; i<exData.size(); i++){
+                            for(int j = 0; j<foData.size(); j++){
+                                if(exData.get(i).getChannel().getName().equals(foData.get(j).getChannel().getName())){
+                                    foData.remove(j);
+                                }
+                            }
+                        }
+                    }
+
+                    offlineAdapter = new OfflineAdapter(foData,getApplicationContext());
+                    offlineRecyclerView.setAdapter(offlineAdapter);
+
+                }else{
+                    Log.d("Fo콜 실행", "body 없음");
+                }
             }
-            return null;
+
+            @Override
+            public void onFailure(Call<Follows> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private static final class CustomLinearLayoutManager extends LinearLayoutManager{
+        private boolean isEnabledScrolling = false;
+
+        public CustomLinearLayoutManager(Context context){
+            super(context);
+        }
+
+        public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout){
+            super(context,orientation,reverseLayout);
+        }
+
+        public CustomLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes){
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        public void setEnabledScrolling(boolean b){
+            isEnabledScrolling = b;
         }
 
         @Override
-        protected void onPostExecute(List<Example.Stream> s) {
-            textView.setText(s.get());
+        public boolean canScrollVertically() {
+            return isEnabledScrolling && super.canScrollVertically();
         }
-    }*/
+    }
+
 }

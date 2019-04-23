@@ -32,16 +32,24 @@
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/onlineRecyclerView"
+            android:layout_below="@+id/searchBar"></android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recommendRecyclerView"
+            android:layout_below="@id/onlineRecyclerView"></android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/offlineRecyclerView"
+            android:layout_below="@id/recommendRecyclerView"></android.support.v7.widget.RecyclerView>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/onlineRecyclerView"
-        android:layout_below="@+id/searchBar"></android.support.v7.widget.RecyclerView>
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recommendRecyclerView"
-        android:layout_below="@id/onlineRecyclerView"></android.support.v7.widget.RecyclerView>
+
+
+
 
 </RelativeLayout>

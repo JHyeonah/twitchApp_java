@@ -12,9 +12,37 @@
         android:layout_margin="15dp"
         android:id="@+id/preview_small_img"
         android:background="@drawable/image_round"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/preview_small_img"
+        android:layout_alignTop="@id/preview_small_img"
+        android:layout_alignLeft="@id/preview_small_img"
+        android:layout_alignRight="@id/preview_small_img"
+        android:textColor="#ff0000"
+        android:text="●"
+        android:gravity="bottom"
+        android:id="@+id/view_img"
+        android:textSize="10dp"
+        android:layout_margin="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/preview_small_img"
+        android:layout_alignTop="@id/preview_small_img"
+        android:layout_alignLeft="@id/preview_small_img"
+        android:layout_alignRight="@id/preview_small_img"
+        android:layout_toRightOf="@+id/view_img"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/colorAccent"
+        android:text="시청자수"
+        android:gravity="bottom"
+        android:id="@+id/view_text"
+        android:textSize="12dp"/>
     <ImageView
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
         android:id="@+id/logo_img"
         android:layout_toRightOf="@+id/preview_small_img"
         android:layout_alignTop="@+id/preview_small_img"
@@ -25,28 +53,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="14sp"
         android:text="스트리머이름 (아이디)"
         android:layout_toRightOf="@+id/logo_img"
         android:layout_alignBottom="@+id/logo_img"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        android:id="@+id/display_name_text"/>
+        android:id="@+id/display_name_text"
+        android:ellipsize="end"
+        android:maxLines="1"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
+        android:textSize="13dp"
         android:textColor="@color/colorText"
         android:layout_below="@+id/logo_img"
         android:layout_alignStart="@+id/logo_img"
         android:text="스트리머 상태"
         android:layout_marginBottom="5dp"
-        android:id="@+id/status_text"/>
+        android:layout_marginRight="5dp"
+        android:id="@+id/status_text"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
+        android:textSize="13dp"
         android:textColor="@color/colorText"
         android:layout_below="@id/status_text"
         android:layout_alignStart="@+id/logo_img"

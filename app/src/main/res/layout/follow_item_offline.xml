@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_border">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:id="@+id/offline_icon"
+        android:src="@drawable/calendar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스트리머 이름 (아이디)"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_alignTop="@id/offline_icon"
+        android:layout_toRightOf="@+id/offline_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="13dp"
+        android:id="@+id/streamer_name"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="새 동영상 n개"
+        android:layout_below="@id/streamer_name"
+        android:textColor="@color/colorText"
+        android:layout_alignStart="@+id/streamer_name"
+        android:id="@+id/new_video"/>
+</RelativeLayout>
