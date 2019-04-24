@@ -1,4 +1,4 @@
-package mentee.gwi02.twitchapp2;
+package mentee.gwi02.twitchapp2.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +14,12 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import mentee.gwi02.twitchapp2.Adapter.FollowOnlineAdapter;
-import mentee.gwi02.twitchapp2.Adapter.OfflineAdapter;
 import mentee.gwi02.twitchapp2.Model.ChannelData;
-import mentee.gwi02.twitchapp2.Model.Search;
+import mentee.gwi02.twitchapp2.R;
+import mentee.gwi02.twitchapp2.TwitchService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity {
     Call<ChannelData> callChannel;

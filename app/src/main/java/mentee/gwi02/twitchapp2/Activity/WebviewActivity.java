@@ -1,4 +1,4 @@
-package mentee.gwi02.twitchapp2;
+package mentee.gwi02.twitchapp2.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import mentee.gwi02.twitchapp2.R;
 
 public class WebviewActivity extends AppCompatActivity {
     private WebView webView;

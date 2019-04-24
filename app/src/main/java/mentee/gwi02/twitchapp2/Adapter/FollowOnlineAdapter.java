@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import mentee.gwi02.twitchapp2.Model.ChannelData;
 import mentee.gwi02.twitchapp2.Model.Recommend;
 import mentee.gwi02.twitchapp2.R;
-import mentee.gwi02.twitchapp2.WebviewActivity;
+import mentee.gwi02.twitchapp2.Activity.WebviewActivity;
 
 public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;

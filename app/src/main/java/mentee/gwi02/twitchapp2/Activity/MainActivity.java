@@ -1,7 +1,8 @@
-package mentee.gwi02.twitchapp2;
+package mentee.gwi02.twitchapp2.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,8 @@ import mentee.gwi02.twitchapp2.Adapter.OfflineAdapter;
 import mentee.gwi02.twitchapp2.Model.ChannelData;
 import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.Model.Recommend;
+import mentee.gwi02.twitchapp2.R;
+import mentee.gwi02.twitchapp2.TwitchService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     exData = new ArrayList<>(example.getStreams());
                     followOnlineAdapter = new FollowOnlineAdapter(exData, getApplicationContext());
                     onlineRecyclerView.setAdapter(followOnlineAdapter);
-
+                    ViewCompat.setNestedScrollingEnabled(onlineRecyclerView, false);
                 }else{
                     Log.d("Ex콜 실행", "body 없음");
             }
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Re콜 실행", reData.toString());
                     followOnlineAdapter = new FollowOnlineAdapter(reData, getApplicationContext(), true);
                     recommendRecyclerView.setAdapter(followOnlineAdapter);
+                    ViewCompat.setNestedScrollingEnabled(recommendRecyclerView, false);
                 }else{
                     Log.d("Re콜 실행", "body 없음");
                 }
@@ -136,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
                     offlineAdapter = new OfflineAdapter(foData,getApplicationContext());
                     offlineRecyclerView.setAdapter(offlineAdapter);
+                    ViewCompat.setNestedScrollingEnabled(offlineRecyclerView, false);
 
                 }else{
                     Log.d("Fo콜 실행", "body 없음");
