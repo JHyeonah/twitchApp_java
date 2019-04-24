@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">twitchApp2</string>
+
+    <!-- 헤더 명 -->
     <string name="online_channel">생방송 채널</string>
     <string name="recommend_channel">추천 채널</string>
     <string name="offline_channel">오프라인 채널</string>
     <string name="video_list">비디오 리스트</string>
+
+    <string name="com.crashlytics.useFirebaseAppId">true</string>
+
+    <string name="result_none">표시 결과 없음</string>
 </resources>

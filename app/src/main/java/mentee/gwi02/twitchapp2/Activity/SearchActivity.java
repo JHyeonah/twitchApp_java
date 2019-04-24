@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     FollowOnlineAdapter followOnlineAdapter;
     EditText search_edittext;
     ImageView search_icon;
+    TextView search_text;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
 
         search_edittext = findViewById(R.id.search_edittext);
         search_icon = findViewById(R.id.search_icon);
+        search_text = findViewById(R.id.search_text);
 
         Intent intent = getIntent();
         String search = intent.getStringExtra("search");
@@ -62,12 +65,15 @@ public class SearchActivity extends AppCompatActivity {
         callChannel.enqueue(new Callback<ChannelData>() {
             @Override
             public void onResponse(Call<ChannelData> call, Response<ChannelData> response) {
-                ChannelData ex = response.body();
-                cData = new ArrayList<>(ex.getStreams());
-                Log.d("search콜",cData.get(0).getChannel().getDisplayName());
+                if(response.body().getStreams().size() != 0){
+                    ChannelData ex = response.body();
+                    cData = new ArrayList<>(ex.getStreams());
 
-                followOnlineAdapter = new FollowOnlineAdapter(cData, getApplicationContext());
-                channelRecyclerView.setAdapter(followOnlineAdapter);
+                    followOnlineAdapter = new FollowOnlineAdapter(cData, getApplicationContext());
+                    channelRecyclerView.setAdapter(followOnlineAdapter);
+                }else{
+                    search_text.setText(R.string.result_none);
+                }
             }
 
             @Override

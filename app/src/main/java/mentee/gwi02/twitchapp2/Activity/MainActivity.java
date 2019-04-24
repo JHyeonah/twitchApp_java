@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView onlineRecyclerView, recommendRecyclerView, offlineRecyclerView;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Fabric.with(this,new Crashlytics());
+
         onlineRecyclerView = findViewById(R.id.onlineRecyclerView);
         recommendRecyclerView = findViewById(R.id.recommendRecyclerView);
         offlineRecyclerView = findViewById(R.id.offlineRecyclerView);
@@ -54,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         search_icon = findViewById(R.id.search_icon);
         swipeLayout = findViewById(R.id.swipe_layout);
 
-        onlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        recommendRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        offlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        onlineRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recommendRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        offlineRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         final TwitchService twitchService = TwitchService.retrofit.create(TwitchService.class);
         callData = twitchService.getOnlineChannel();
@@ -166,35 +171,5 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-
-
     }
-
-
-
-    private static final class CustomLinearLayoutManager extends LinearLayoutManager{
-        private boolean isEnabledScrolling = false;
-
-        public CustomLinearLayoutManager(Context context){
-            super(context);
-        }
-
-        public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout){
-            super(context,orientation,reverseLayout);
-        }
-
-        public CustomLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes){
-            super(context, attrs, defStyleAttr, defStyleRes);
-        }
-
-        public void setEnabledScrolling(boolean b){
-            isEnabledScrolling = b;
-        }
-
-        @Override
-        public boolean canScrollVertically() {
-            return isEnabledScrolling && super.canScrollVertically();
-        }
-    }
-
 }
