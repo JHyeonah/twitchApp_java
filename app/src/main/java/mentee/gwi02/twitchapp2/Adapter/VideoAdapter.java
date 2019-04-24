@@ -84,19 +84,12 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             String icon_url = item.getChannel().getLogo();
             String preview_url = item.getPreview().getSmall();
             final String video_url = item.getUrl();
-            int time = item.getLength();
-            int hour, minute, second;
-
-            hour = (int)time/3600;
-            time -= hour*3600;
-            minute = (int)time/60;
-            time -= minute*60;
-            second = time;
+            String time = getTime(item.getLength());
 
             holders.display_name_text.setText(item.getChannel().getDisplayName() + " (" + item.getChannel().getName()+")");
             holders.title_text.setText(item.getTitle());
             holders.game_text.setText(item.getPublishedAt().substring(0,10) + " | " + item.getGame());
-            holders.time_text.setText(String.valueOf(hour) + ":" + String.valueOf(minute) + ":" + String.valueOf(second));
+            holders.time_text.setText(time);
 
             Glide.with(context)
                     .load(icon_url)
@@ -130,5 +123,30 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return vList.size() + 1;
     }
 
+    public String getTime(int time){
+        int hour, minute, second;
+        String sSecond = "";
+        String sMinute = "";
+        String sTime = "";
 
+        hour = (int)time/3600;
+        time -= hour*3600;
+        minute = (int)time/60;
+        time -= minute*60;
+        second = time;
+
+        sSecond = String.valueOf(second);
+        sMinute = String.valueOf(minute);
+
+        if(minute < 10){
+            sMinute = "0" + sMinute;
+        }
+
+        if(second < 10){
+            sSecond = "0" + sSecond;
+        }
+
+        sTime = String.valueOf(hour) + ":" + sMinute + ":" + sSecond;
+        return sTime;
+    }
 }

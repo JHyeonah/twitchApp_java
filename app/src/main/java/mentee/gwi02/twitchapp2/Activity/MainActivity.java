@@ -3,6 +3,7 @@ package mentee.gwi02.twitchapp2.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ChannelData.Stream> exData;
     ArrayList<Recommend.Featured> reData;
     ArrayList<Follows.Follow> foData;
+    SwipeRefreshLayout swipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         offlineRecyclerView = findViewById(R.id.offlineRecyclerView);
         search_edittext = findViewById(R.id.search_edittext);
         search_icon = findViewById(R.id.search_icon);
+        swipeLayout = findViewById(R.id.swipe_layout);
 
         onlineRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recommendRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
@@ -72,8 +75,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                finish();
+                startActivity(getIntent());
+
+                swipeLayout.setRefreshing(false);
+            }
+        });
+
         getResult();
     }
+
 
     public void getResult(){
         callData.enqueue(new Callback<ChannelData>() {
@@ -155,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
     private static final class CustomLinearLayoutManager extends LinearLayoutManager{
         private boolean isEnabledScrolling = false;

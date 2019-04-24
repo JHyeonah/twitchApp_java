@@ -49,8 +49,8 @@ public interface TwitchService {
             "Accept: application/vnd.twitchtv.v5+json",
             "Client-ID: emxt0p6s6th2tetp5swle01t5ptmiq"
     })
-    @GET("kraken/channels/{id}/videos")
-    Call<Videos> getVideo(@Path("id") String id);
+    @GET("kraken/channels/{id}/videos/?limit=10")
+    Call<Videos> getVideo(@Path("id") String id, @Query("offset") int offset);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.twitch.tv/")

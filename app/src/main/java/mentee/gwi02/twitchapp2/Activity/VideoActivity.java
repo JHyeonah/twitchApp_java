@@ -2,7 +2,10 @@ package mentee.gwi02.twitchapp2.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import mentee.gwi02.twitchapp2.Adapter.VideoAdapter;
 import mentee.gwi02.twitchapp2.Model.Videos;
@@ -29,6 +31,10 @@ public class VideoActivity extends AppCompatActivity {
     VideoAdapter videoAdapter;
     EditText search_edittext;
     ImageView search_icon;
+    SwipeRefreshLayout swipeLayout;
+    TwitchService twitchService;
+    int offset = 0;
+    String id = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +43,11 @@ public class VideoActivity extends AppCompatActivity {
 
         videoRecyclerView = findViewById(R.id.videoRecyclerView);
         videoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        videoRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         search_edittext = findViewById(R.id.search_edittext);
         search_icon = findViewById(R.id.search_icon);
+        swipeLayout = findViewById(R.id.swipe_layout);
 
         search_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,12 +62,45 @@ public class VideoActivity extends AppCompatActivity {
             }
         });
 
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                finish();
+                startActivity(getIntent());
+
+                swipeLayout.setRefreshing(false);
+            }
+        });
+
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
 
-        final TwitchService twitchService = TwitchService.retrofit.create(TwitchService.class);
-        callVideo = twitchService.getVideo(id);
+        twitchService = TwitchService.retrofit.create(TwitchService.class);
+        callVideo = twitchService.getVideo(id, offset);
+        getResult();
 
+    }
+
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if(!videoRecyclerView.canScrollVertically(1)){
+                offset += 10;
+
+                callVideo = twitchService.getVideo(id, offset);
+
+                getResult();
+            }
+        }
+
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+        }
+    };
+
+    public void getResult(){
         callVideo.enqueue(new Callback<Videos>() {
             @Override
             public void onResponse(Call<Videos> call, Response<Videos> response) {
@@ -68,6 +109,7 @@ public class VideoActivity extends AppCompatActivity {
 
                 videoAdapter = new VideoAdapter(vData, getApplicationContext());
                 videoRecyclerView.setAdapter(videoAdapter);
+
             }
 
             @Override
@@ -76,4 +118,6 @@ public class VideoActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

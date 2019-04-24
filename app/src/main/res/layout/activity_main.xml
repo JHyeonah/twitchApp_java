@@ -6,64 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:id="@+id/searchBar"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src ="@drawable/gear"
-            android:layout_margin="10dp"
-            android:layout_alignParentLeft="true"/>
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/search_edittext"
-            android:layout_toLeftOf="@+id/search_icon"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src ="@drawable/search"
-            android:id="@+id/search_icon"
-            android:layout_margin="10dp"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:id="@+id/searchBar"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src ="@drawable/gear"
+                android:layout_margin="10dp"
+                android:layout_alignParentLeft="true"/>
+            <EditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_edittext"
+                android:layout_toLeftOf="@+id/search_icon"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src ="@drawable/search"
+                android:id="@+id/search_icon"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:layout_below="@+id/searchBar">
-        <LinearLayout
+        android:layout_below="@id/searchBar"
+        android:id="@+id/swipe_layout">
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <android.support.v7.widget.RecyclerView
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/onlineRecyclerView"></android.support.v7.widget.RecyclerView>
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recommendRecyclerView"
-                android:layout_below="@id/onlineRecyclerView"></android.support.v7.widget.RecyclerView>
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/offlineRecyclerView"
-                android:layout_below="@id/recommendRecyclerView"></android.support.v7.widget.RecyclerView>
-        </LinearLayout>
+                android:orientation="vertical">
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/onlineRecyclerView"></android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recommendRecyclerView"
+                    android:layout_below="@id/onlineRecyclerView"></android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/offlineRecyclerView"
+                    android:layout_below="@id/recommendRecyclerView"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-
-
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </RelativeLayout>
