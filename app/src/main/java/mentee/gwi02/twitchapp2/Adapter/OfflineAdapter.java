@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import mentee.gwi02.twitchapp2.Activity.VideoActivity;
 import mentee.gwi02.twitchapp2.Model.Follows;
 import mentee.gwi02.twitchapp2.R;
 
@@ -71,9 +73,9 @@ public class OfflineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int i) {
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder)holder;
-            headerViewHolder.header_text.setText("오프라인 채널");
+            headerViewHolder.header_text.setText(R.string.offline_channel);
         }else {
-            Follows.Follow item = fList.get(i-1);
+            final Follows.Follow item = fList.get(i-1);
             OfflineViewHolders holders = (OfflineViewHolders)holder;
 
             String icon_url = item.getChannel().getLogo();
@@ -82,6 +84,16 @@ public class OfflineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Glide.with(context)
                     .load(icon_url)
                     .into(holders.offline_icon);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String id = String.valueOf(item.getChannel().getId());
+                    Intent intent = new Intent(context, VideoActivity.class);
+                    intent.putExtra("id",id);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

@@ -2,4 +2,6 @@
     <string name="app_name">twitchApp2</string>
     <string name="online_channel">생방송 채널</string>
     <string name="recommend_channel">추천 채널</string>
+    <string name="offline_channel">오프라인 채널</string>
+    <string name="video_list">비디오 리스트</string>
 </resources>

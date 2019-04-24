@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".Activity.WebviewActivity"></activity>
         <activity android:name=".Activity.SearchActivity"></activity>
+        <activity android:name=".Activity.VideoActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

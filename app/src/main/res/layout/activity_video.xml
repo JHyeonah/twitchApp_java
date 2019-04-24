@@ -34,6 +34,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/channelRecyclerView"
+        android:id="@+id/videoRecyclerView"
         android:layout_below="@+id/searchBar"></android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

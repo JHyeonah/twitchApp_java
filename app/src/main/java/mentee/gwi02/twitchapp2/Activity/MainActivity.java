@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     Follows follows = response.body();
                     foData = new ArrayList<>(follows.getFollows());
 
-                    if(exData.size() != 0){
+                    if(exData != null){
                         for(int i = 0; i<exData.size(); i++){
                             for(int j = 0; j<foData.size(); j++){
                                 if(exData.get(i).getChannel().getName().equals(foData.get(j).getChannel().getName())){
