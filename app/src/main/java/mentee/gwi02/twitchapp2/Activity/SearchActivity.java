@@ -65,7 +65,7 @@ public class SearchActivity extends AppCompatActivity {
         callChannel.enqueue(new Callback<ChannelData>() {
             @Override
             public void onResponse(Call<ChannelData> call, Response<ChannelData> response) {
-                if(response.body().getStreams().size() != 0){
+                if(response.body() != null){
                     ChannelData ex = response.body();
                     cData = new ArrayList<>(ex.getStreams());
 
