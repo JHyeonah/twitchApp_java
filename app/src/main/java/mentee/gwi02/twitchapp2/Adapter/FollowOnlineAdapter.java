@@ -124,9 +124,10 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             String preview_url = item.getPreview().getSmall();
             String logo_url = item.getChannel().getLogo();
+            String viewer = calculateViewer(item.getViewers());
 
             holders.display_name_text.setText(item.getChannel().getDisplayName() + " (" + item.getChannel().getName() + ")");
-            holders.view_text.setText(item.getViewers());
+            holders.view_text.setText(viewer);
             holders.status_text.setText(item.getChannel().getStatus());
             holders.game_text.setText(item.getChannel().getGame());
 
@@ -156,5 +157,22 @@ public class FollowOnlineAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         }
+    }
+
+    public String calculateViewer(String viewer){
+        String temp = "";
+        float fViewer = Float.parseFloat(viewer);
+
+        if(fViewer >= 1000){
+            fViewer /= 1000;
+
+            temp = String.format("%.1f",fViewer);
+            temp += "천";
+
+            return temp;
+        }else{
+            return viewer;
+        }
+
     }
 }

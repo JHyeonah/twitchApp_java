@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                finish();
-                startActivity(getIntent());
+                followOnlineAdapter.notifyDataSetChanged();
+                offlineAdapter.notifyDataSetChanged();
 
                 swipeLayout.setRefreshing(false);
             }

@@ -65,8 +65,7 @@ public class VideoActivity extends AppCompatActivity {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                finish();
-                startActivity(getIntent());
+                videoAdapter.notifyDataSetChanged();
 
                 swipeLayout.setRefreshing(false);
             }
@@ -74,6 +73,8 @@ public class VideoActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
+
+        vData = new ArrayList<>();
 
         twitchService = TwitchService.retrofit.create(TwitchService.class);
         callVideo = twitchService.getVideo(id, offset);
@@ -89,8 +90,23 @@ public class VideoActivity extends AppCompatActivity {
                 offset += 10;
 
                 callVideo = twitchService.getVideo(id, offset);
+                callVideo.enqueue(new Callback<Videos>() {
+                    @Override
+                    public void onResponse(Call<Videos> call, Response<Videos> response) {
+                        int size = response.body().getVideos().size();
 
-                getResult();
+                        for(int i=0; i<size; i++){
+                            vData.add(response.body().getVideos().get(i));
+                        }
+
+                        videoAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Videos> call, Throwable t) {
+
+                    }
+                });
             }
         }
 
@@ -104,12 +120,16 @@ public class VideoActivity extends AppCompatActivity {
         callVideo.enqueue(new Callback<Videos>() {
             @Override
             public void onResponse(Call<Videos> call, Response<Videos> response) {
-                vData = new ArrayList<>(response.body().getVideos());
+                int size = response.body().getVideos().size();
+
+                for(int i=0; i<size; i++){
+                    vData.add(0, response.body().getVideos().get(i));
+                }
+
                 Log.d("video콜",vData.toString());
 
                 videoAdapter = new VideoAdapter(vData, getApplicationContext());
                 videoRecyclerView.setAdapter(videoAdapter);
-
             }
 
             @Override
